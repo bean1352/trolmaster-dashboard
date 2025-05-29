@@ -157,7 +157,7 @@ export default function Dashboard() {
       </div>
 
       {/* Grouped Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-8 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-8 gap-5">
         {displayGroups
           .flatMap(({ controllers }) => controllers)
           .map(({ name, mac, data, loading }) => (
