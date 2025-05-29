@@ -157,58 +157,54 @@ export default function Dashboard() {
       </div>
 
       {/* Grouped Cards */}
-      {displayGroups.map(({ groupName, controllers }) => (
-        <div key={groupName}>
-          <h2 className="text-2xl font-semibold mb-4 capitalize">
-            {groupName.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {controllers.map(({ name, mac, data, loading }) => (
-              <Card key={mac} className="shadow-md relative">
-                <CardHeader>
-                  <CardTitle className="text-lg">{name}</CardTitle>
-                  <p className="text-sm text-muted-foreground">MAC: {mac}</p>
-                  {loading && (
-                    <Loader2 className="absolute top-4 right-4 h-4 w-4 animate-spin text-muted-foreground" />
-                  )}
-                </CardHeader>
-                <CardContent className="text-sm text-muted-foreground">
-                  {data?.Item ? (
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        🌡️ <span className="font-medium">Temp:</span>{" "}
-                        {((parseFloat(data.Item.tp) - 32) * 5 / 9).toFixed(1)}°C
-                      </div>
-                      <div className="flex items-center gap-2">
-                        💧 <span className="font-medium">Humidity:</span>{" "}
-                        {data.Item.hy}%
-                      </div>
-                      <div className="flex items-center gap-2">
-                        🌿 <span className="font-medium">CO₂:</span>{" "}
-                        {data.Item.co2} ppm
-                      </div>
-                      <div className="flex items-center gap-2">
-                        🔆 <span className="font-medium">Light:</span>{" "}
-                        {data.Item.light_status === "1" ? "On" : "Off"}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        🌬️ <span className="font-medium">VPD:</span>{" "}
-                        {data.Item.vpd}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        🕒 <span className="font-medium">Time:</span>{" "}
-                        {data.Item.ct_tm}
-                      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-8 gap-6">
+        {displayGroups
+          .flatMap(({ controllers }) => controllers)
+          .map(({ name, mac, data, loading }) => (
+            <Card key={mac} className="shadow-md relative">
+              <CardHeader>
+                <CardTitle className="text-lg">{name}</CardTitle>
+                <p className="text-sm text-muted-foreground">MAC: {mac}</p>
+                {loading && (
+                  <Loader2 className="absolute top-4 right-4 h-4 w-4 animate-spin text-muted-foreground" />
+                )}
+              </CardHeader>
+              <CardContent className="text-sm text-muted-foreground">
+                {data?.Item ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      🌡️ <span className="font-medium">Temp:</span>{" "}
+                      {((parseFloat(data.Item.tp) - 32) * 5 / 9).toFixed(1)}°C
                     </div>
-                  ) : (
-                    <p className="text-destructive">Error showing data</p>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      ))}
+                    <div className="flex items-center gap-2">
+                      💧 <span className="font-medium">Humidity:</span>{" "}
+                      {data.Item.hy}%
+                    </div>
+                    <div className="flex items-center gap-2">
+                      🌿 <span className="font-medium">CO₂:</span>{" "}
+                      {data.Item.co2} ppm
+                    </div>
+                    <div className="flex items-center gap-2">
+                      🔆 <span className="font-medium">Light:</span>{" "}
+                      {data.Item.light_status === "1" ? "On" : "Off"}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      🌬️ <span className="font-medium">VPD:</span>{" "}
+                      {data.Item.vpd}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      🕒 <span className="font-medium">Time:</span>{" "}
+                      {data.Item.ct_tm}
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-destructive">Error showing data</p>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+      </div>
+
     </div>
   );
 }
